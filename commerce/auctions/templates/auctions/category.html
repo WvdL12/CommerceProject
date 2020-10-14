@@ -1,7 +1,11 @@
 {% extends "auctions/layout.html" %}
 
+{% block title %}
+Auctions - {{category.name}}
+{% endblock %}
+
 {% block body %}
-    <h2>Active Listings</h2>
+    <h2>{{category.name}}: Active Listings</h2>
 	
 	{% for listing in listings %}
 		{% if listing.active %}
@@ -29,6 +33,11 @@
 				</div>
 			</div>
 		{% endif %}
+		
+	{% empty %}
+	<div class="bold">
+		No active listings in this category.
+	</div>
 	{% endfor %}
 	
 {% endblock %}

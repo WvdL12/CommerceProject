@@ -1,0 +1,46 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+	Auctions - Watchlist: {{user}}
+{% endblock %}
+
+{% block body %}
+	<h2>{{user}}'s Watchlist:</h2>
+	
+	{% for listing in listings %}
+		<div class="listings">
+			<div>
+			{% if listing.img %}
+				<img class="img" src="{{ listing.img }}" alt="{{listing.title}}">
+			{% else %}
+				<img class="img" src="https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg" alt="No image available.">
+			{% endif %}
+			</div>
+		
+			<div>
+				<h3> {{ listing.title }} </h3>
+				<p> {{ listing.description }} </p>
+				<div>
+					Current price: ${{ prices|get_price:listing.id }}
+				</div>
+				<div>
+					Category: {{ listing.category }}
+				</div>
+				<div  class="bold">
+					{% if listing.active %}
+					This listing is still active.
+					{% else %}
+					This listing has been closed.
+					{% endif %}
+				</div>
+				<div>
+					<a href="{% url 'listing' listing.id %}">View page.</a>
+				</div>
+			</div>
+		</div>
+	{% empty %}
+		<div class="bold">
+			You have no listings on your watchlist.
+		</div>
+	{% endfor %}
+{% endblock %}

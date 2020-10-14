@@ -1,0 +1,123 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+	Auctions - {{ listing.title }}
+{% endblock %}
+
+{% block body %}
+	
+	{% if message %}
+		<div class="bold">{{ message }}</div>
+	{% endif %}
+	
+	<h2> {{ listing.title }} </h2>
+	
+	<div class="listings">
+		<div>
+			{% if listing.img %}
+				<img class="img" src="{{ listing.img }}" alt="{{listing.title}}">
+			{% else %}
+				<img class="img" src="https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg" alt="No image available.">
+			{% endif %}
+		</div>
+		
+		<div>
+			<p> {{ listing.description }} </p>
+			<div class="listing_detail">
+				Price: ${{ price }}
+			</div>
+			<div class="subscript">
+				Number of bids: {{num_bids}}. 
+				{% if num_bids > 0 %}
+					Current highest bid: {{price.user}}.
+				{% endif %}
+			</div>
+			<div class="listing_detail">
+				Category: {{ listing.category }}
+			</div>
+			<div class="listing_detail">
+				Created by: {{ listing.user }}
+			</div>
+			{% if user.is_authenticated and listing.active%}
+				<div class="listing_detail">
+					<form action="{% url 'listing' listing.id %}" method="post">
+						{% csrf_token %}
+						<label for="bid">Place bid: $</label>
+						<input type="number" class="bid-input" name="bid" placeholder=0.00 required min={{ price }}>
+						<input type="submit" value="Place">
+						<input type="hidden" name="name" value="bid-form">
+					</form>
+				</div>
+	
+				<div class="listing_detail">
+					{% if user == listing.user %}
+						<form action="{% url 'listing' listing.id %}" method="post">
+							{% csrf_token %}
+							<input type="hidden" name="name" value="close-listing">
+							<input type="submit" value="Close listing">
+						</form>
+					{% elif user in listing.watchlisted.all %}
+						<form action="{% url 'listing' listing.id %}" method="post">
+							{% csrf_token %}
+							<label for="rem-watch">This item is on your watchlist. </label>
+							<input type="submit" name="rem-watch" value="Remove">
+							<input type="hidden" name="name" value="remove-form">
+						</form>
+					{% else %}
+						<form action="{% url 'listing' listing.id %}" method="post">
+							{% csrf_token %}
+							<label for="add-watch">This item is not on your watchlist. </label>
+							<input type="submit" name="add-watch" value="Add">
+							<input type="hidden" name="name" value="add-form">
+						</form>
+					{% endif %}
+				</div>
+			{% elif user.is_authenticated and num_bids > 0%}
+				{% if user == price.user %}
+					<h3>You have won the bid!</h3>
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+	
+	<div class="comment-section">
+		<div>
+			<form action="{% url 'listing' listing.id %}" method="post">
+				{% csrf_token %}
+				{% if user.is_authenticated and listing.active%}
+					<div class="form-group">
+						<label for="comment">Post a comment as {{user}}:</label>
+						<textarea class="form-control" name="comment" placeholder="Type a comment..." required></textarea>
+					</div>
+					<input type="hidden" name="name" value="comment-form">
+					<input class="btn btn-primary" type="submit" value="Comment">
+				{% else %}
+					<div class="form-group">
+						<label for="comment">Comments not available. (not logged in, or listing was closed)</label>
+						<textarea class="form-control" name="comment" placeholder="Type a comment..." required disabled></textarea>
+					</div>
+					<input class="btn btn-primary" type="submit" value="Comment" disabled>
+				{% endif %}
+			</form>
+		</div>
+			
+		<div>
+			<h3>Comments:</h3>
+			<ul class="comments">
+				{% if listing.comments.all %}
+					{% for comment in listing.comments.all %}
+						<li>
+							<div class="comment-user">{{comment.user}}</div>
+							<p class="comment-body">{{comment.body}}</p>
+							<div class="comment-date">{{comment.datetime}}</div>
+						</li>
+					{% endfor %}
+				{% else %}
+					<li>
+						No comments yet.
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+{% endblock %}

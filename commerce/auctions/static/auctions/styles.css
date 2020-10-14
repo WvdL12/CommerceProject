@@ -1,3 +1,81 @@
 body {
     padding: 10px;
 }
+
+.img {
+	width: 250px;
+	height: auto;
+}
+
+.listings {
+	display: grid;
+	grid-template-columns: 300px auto;
+	padding: 10px;
+	margin-top: 5px;
+	border: 2px solid lightgrey;
+	border-radius: 5px;	
+}
+.listing_detail {
+	margin-top: 10px;
+}
+
+.subscript {
+	font-style: italic;
+	font-size: 13px;
+	margin: 0px;
+}
+
+.comment-section {
+	display: grid;
+	grid-template-columns: auto;
+	grid-row-gap: 10px;
+	padding: 10px;
+	margin-top: 5px;
+	border: 2px solid lightgrey;
+	border-radius: 5px;	
+}
+
+.comments {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.comment-user {
+	font-weight: bold;
+	padding-bottom: 2px;
+	padding-top: 5px;
+}
+
+.comment-body {
+	margin: 0px 10px 0px;
+	padding: 0px;
+}
+
+.comment-date {
+	margin: 0px;
+	padding: 0px;
+	font-style: italic;
+	color: grey;
+	font-size: 12px;
+}
+
+.bid-input {
+	max-width: 60px;
+}
+
+.bold {
+	font-weight: bold;
+	padding: 0px;
+}
+
+.categories {
+	list-style-type: none;
+}
+
+.category-item {
+	font-size: 18px;
+	font-weight: bold;
+	padding: 5px;
+	margin-top: 5px;
+}
