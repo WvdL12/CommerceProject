@@ -1,7 +1,7 @@
-#CS50 Web Programming course via Harvard Online
+# CS50 Web Programming course via Harvard Online
 https://cs50.harvard.edu/web/2020/
 
-##Project 2: Commerce Website
+## Project 2: Commerce Website
 
 This project was a part of Harvard Online's CS50 Web Programming with Python and Javascript course. This project is aimed at practicing and showcasing skills learned in Section 4: SQL, Models and Migrations.
 
